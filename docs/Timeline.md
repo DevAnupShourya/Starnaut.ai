@@ -1,0 +1,16 @@
+## Table of Contents
+
+- [Tech Stack](#tech-stack)
+- [Languages](#languages)
+- [Other Libraries](#other-libraries)
+
+## **Tech Stack**
+- Frontend: [NextJS](https://nextjs.org/docs)
+- Backend: [NextJS Backend](https://nextjs.org/docs) 
+- Auth: [ClerkJS](https://clerk.com/docs/quickstarts/nextjs)
+- Storage: [Uploadthing](https://uploadthing.com/)
+- Hosting: [Coolify](https://coolify.io/)
+- UI: [ShadCN](https://ui.shadcn.com/docs) & 
+
+## **Languages**
+Used **TypeScript** for better type-safety and everyone seems using TS now so.
