@@ -1,3 +1,5 @@
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 import DashboardNavbar from "@/components/sections/dashboard-navbar";
 import Image from "next/image";
 
@@ -27,9 +29,9 @@ export default function DashboardLayout({
         />
 
       </div>
-      <div id="dashboard" className="ring-1 overflow-y-scroll">
+      <ScrollArea id="dashboard" className="ring-1">
         {children}
-      </div>
+      </ScrollArea>
       <div id="navbar" className="pb-1">
         <DashboardNavbar />
       </div>
