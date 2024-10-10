@@ -19,9 +19,18 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
+import { redirect } from 'next/navigation';
+import { currentUser } from '@clerk/nextjs/server';
 
-export default function Home() {
+export default async function Home() {
+  const authData = await currentUser();
+  
+  if (authData?.id) {
+    // ? Redirect if the user is logged in
+    redirect('/dashboard');
+  }
+
   return (
     <section className="p-1 max-w-screen-xl mx-auto">
       <nav className="flex justify-between items-center py-5">
