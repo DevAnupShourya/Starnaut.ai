@@ -9,8 +9,6 @@ export default function PricingCards() {
             {/* Free Card */}
             <MagicCard
                 className="w-1/3 px-4 py-6 shadow-2xl"
-                // gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
-                gradientColor={"#D9D9D955"}
             >
                 <h3 className="text-2xl font-semibold">Free</h3>
                 <p className="mt-1 font-light text-sm">For individuals.</p>
@@ -48,8 +46,6 @@ export default function PricingCards() {
             {/* Paid Card */}
             <MagicCard
                 className="w-1/3 px-4 py-6 shadow-2xl"
-                // gradientColor={theme === "dark" ? "#262626" : "#D9D9D955"}
-                gradientColor={"#D9D9D955"}
             >
                 <h3 className="text-2xl font-semibold">Ultimate</h3>
                 <p className="mt-1 font-light text-sm">For enterprise</p>

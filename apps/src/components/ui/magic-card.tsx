@@ -2,6 +2,7 @@
 
 import React, { useCallback, useEffect } from "react";
 import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
+import { useTheme } from "next-themes";
 
 import { cn } from "@/lib/utils";
 
@@ -40,6 +41,10 @@ export function MagicCard({
     mouseY.set(-gradientSize);
   }, [mouseX, mouseY, gradientSize]);
 
+  // ? Added 
+  const { theme } = useTheme();
+  const currentGradientColor = theme === "dark" ? "#262626" : "#D9D9D955";
+
   return (
     <div
       onMouseMove={handleMouseMove}
@@ -54,7 +59,7 @@ export function MagicCard({
         className="pointer-events-none absolute -inset-px rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
         style={{
           background: useMotionTemplate`
-            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${gradientColor}, transparent 100%)
+            radial-gradient(${gradientSize}px circle at ${mouseX}px ${mouseY}px, ${currentGradientColor}, transparent 100%)
           `,
           opacity: gradientOpacity,
         }}
