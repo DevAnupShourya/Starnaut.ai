@@ -17,10 +17,9 @@ export default function LoginPage() {
           </Link>
         </Button>
       </div>
-      <section className='w-full h-full grid place-items-center '>
+      <section className='w-full h-full grid place-items-center mb-5'>
         <div>
-          {/* <SignUp /> */}
-          Signup
+          <SignUp />
         </div>
       </section>
     </>

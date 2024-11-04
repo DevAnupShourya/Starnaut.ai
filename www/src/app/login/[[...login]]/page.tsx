@@ -19,8 +19,7 @@ export default function LoginPage() {
       </div>
       <section className='w-full h-full grid place-items-center '>
         <div>
-          {/* <SignIn /> */}
-          Signin
+          <SignIn />
         </div>
       </section>
     </>

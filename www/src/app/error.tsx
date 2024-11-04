@@ -34,7 +34,7 @@ export default function Error({
               Something Went Wrong
             </h1>
             <p className="text-muted-foreground max-w-sm mx-auto leading-relaxed">
-              Our AI systems encountered an unexpected error. Don't worry, we're already analyzing the anomaly.
+              Our systems encountered an unexpected error. Don't worry, we're already analyzing the anomaly.
             </p>
             {process.env.NODE_ENV === 'development' && (
               <div className="mt-4 p-4 bg-destructive/5 rounded-lg border border-destructive/10">
