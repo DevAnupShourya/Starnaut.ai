@@ -20,9 +20,9 @@ import { PersonaList } from "@/data/data";
 export default function ExplorePage() {
   return (
     <section className="py-2 max-sm:py-1 max-w-screen-lg mx-auto">
-      <h2 className="border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-2">
+      {/* <h2 className="border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0 mb-2">
         Explore
-      </h2>
+      </h2> */}
       <div id="header" className="w-full flex gap-4 items-center justify-between">
         <div className="relative md:grow-0 w-full">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -66,7 +66,7 @@ export default function ExplorePage() {
           </Link>
         </div>
       </div>
-      <main className="flex flex-row flex-wrap justify-evenly gap-2 max-sm:gap-1 my-2">
+      <main className="flex flex-row flex-wrap justify-around gap-2 max-sm:gap-1 my-2">
         {PersonaList.map((persona, idx) => {
           return (
             <BlurFade key={persona.image} delay={0.25 + idx * 0.05} inView>

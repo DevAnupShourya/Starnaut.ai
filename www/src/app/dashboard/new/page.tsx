@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { personaSchema } from "@/types/index";
+import { personaSchema } from "@/schemas/index";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
