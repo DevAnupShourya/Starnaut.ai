@@ -1,20 +1,21 @@
-import { PrismaClient } from '@prisma/client';
-
-const db = new PrismaClient();
+import prisma from '@/server/database/prisma';
 
 export async function findUserByClerkIdDB(cId: string): Promise<boolean> {
-    const user = await db.user.findFirst({
+    const user = await prisma.user.findFirst({
         where: {
-            clerkId: cId
+            id: cId
+        },
+        select: {
+            id: true,
         }
     });
-    
+
     // ? Return `true` if user exists, otherwise `false`
     return user !== null;
 }
 
-export async function createUserDB(userData: { name: string; clerkId: string }) {
-    return db.user.create({
+export async function createUserDB(userData: { name: string; id: string }) {
+    return prisma.user.create({
         data: userData,
     });
-}
+};

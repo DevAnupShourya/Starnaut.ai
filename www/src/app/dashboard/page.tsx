@@ -2,12 +2,12 @@ import ChatBox from "@/components/custom/chat-box";
 import ShimmerButton from "@/components/magicui/shimmer-button";
 import Link from "next/link";
 import { currentUser } from '@clerk/nextjs/server';
-import { isUserInDB } from "@/server/actions/userActions";
+import { isUserSaved } from "@/server/actions/userActions";
 
 export default async function DashboardHomePage() {
   const user = await currentUser();
   // TODO should be using clerk webhooks but for now 
-  isUserInDB(user?.id!, { name: user?.fullName! });
+  isUserSaved(user?.id!, { name: user?.fullName! });
 
   const HAS_CHAT = true;
   return (

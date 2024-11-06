@@ -1,7 +1,11 @@
-// import { PrismaClient, Prisma } from '@prisma/client';
+import prisma from '@/server/database/prisma';
+import { Prisma } from '@prisma/client';
 
-// const db = new PrismaClient();
-
-export async function getPersonaById() {
-    // db query
+export async function createPersonaDB(personaData:
+    Omit<Prisma.PersonaCreateInput, 'User' | 'id' | 'likes' | 'users' | 'createdAt' | 'updatedAt' | 'Chat' | 'Message'> & { creatorId: string }
+) {
+    const createdPersona = await prisma.persona.create({
+        data: { ...personaData }
+    })
+    return createdPersona;
 }

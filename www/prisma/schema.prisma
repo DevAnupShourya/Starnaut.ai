@@ -8,8 +8,7 @@ datasource db {
 }
 
 model User {
-  id      String    @id @default(cuid())
-  clerkId String
+  id      String    @id 
   name    String
   chats   Chat[]
   Message Message[]
@@ -22,7 +21,7 @@ model Persona {
   description         String
   exampleConversation String
   instructions        String
-  image               String    @db.VarChar(255)
+  image               String    
   category            String    @db.VarChar(255)
   creatorId           String
   likes               Int?

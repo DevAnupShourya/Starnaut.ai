@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { personaSchema } from "@/schemas/index";
+import { personaFormSchema } from "@/schemas/index";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -29,38 +29,59 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+import { createPersona } from "@/server/actions/personaActions";
+import { useAuth } from '@clerk/nextjs';
+import { toBase64 } from "@/lib/utils";
+import { useRouter } from 'next/navigation';
+
 export default function CreatePersonaPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const [formSubmitting, setFormSubmitting] = useState(false);
+  const user = useAuth();
 
-  const personaCreateForm = useForm<z.infer<typeof personaSchema>>({
-    resolver: zodResolver(personaSchema),
+  const personaCreateForm = useForm<z.infer<typeof personaFormSchema>>({
+    resolver: zodResolver(personaFormSchema),
     defaultValues: {
-      category: 'Normal Human',
-      description: '',
-      image: '',
-      instructions: '',
-      name: '',
-      example_conversation: '',
+      category: 'Entrepreneur',
+      description: 'this line should be very long and can not be optional',
+      instructions: 'this line should be very long and can not be optional',
+      name: 'Elon Musk',
+      exampleConversation: 'this line should be very long and can not be optional',
     },
   })
+  const avatarImageFileRef = personaCreateForm.register("image");
 
-  async function onFormSubmit(values: z.infer<typeof personaSchema>) {
+  async function onFormSubmit(values: z.infer<typeof personaFormSchema>) {
     setFormSubmitting(true)
     try {
-      console.log(values);
+      const base64Image = await toBase64(values.image[0] as File);
+      const createdPersonaDetails = await createPersona({
+        ...values,
+        creatorId: user?.userId as string,
+        image: base64Image as string || `https://avatar.vercel.sh/${values.name}?size=24`,
+      });
+      
+      if (createdPersonaDetails.id) {
+        toast({
+          variant: "default",
+          title: "Your Persona created successfully.",
+        })
 
+        router.push(`/dashboard/persona/${createdPersonaDetails.id}`)
+      }
       // TODO : reset the from values
     } catch (error: any) {
-      console.warn('[CreatePersonaPage : onFormSubmit] \n ', error);
-
       toast({
         variant: "destructive",
         title: "Something went wrong. Please try again.",
         description: error.message || "",
       })
+
+      console.warn('[CreatePersonaPage : onFormSubmit] \n ', error);
     } finally {
       setFormSubmitting(false);
+      // personaCreateForm.resetField();
     }
   }
 
@@ -80,9 +101,15 @@ export default function CreatePersonaPage() {
             name="image"
             render={({ field }) => (
               <FormItem className="max-w-screen-md min-w-fit mx-auto my-6">
-                <FormLabel>Avatar</FormLabel>
+                <FormLabel>Avatar
+                </FormLabel>
                 <FormControl>
-                  <Input type="file" {...field} />
+                  <Input type="file"
+                    {...avatarImageFileRef}
+                    onChange={(event) => {
+                      field.onChange(event.target?.files?.[0] ?? undefined);
+                    }}
+                  />
                 </FormControl>
                 <FormDescription>
                   This is your public display image.
@@ -175,7 +202,7 @@ export default function CreatePersonaPage() {
           />
           <FormField
             control={personaCreateForm.control}
-            name="example_conversation"
+            name="exampleConversation"
             render={({ field }) => (
               <FormItem className="max-w-screen-md min-w-fit mx-auto my-6">
                 <FormLabel>Example Conversation</FormLabel>
@@ -216,3 +243,4 @@ Elon: *with a mischievous smile* Always! But Neuralink... it’s not just techno
     </Form>
   );
 }
+

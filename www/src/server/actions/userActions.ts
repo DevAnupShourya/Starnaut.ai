@@ -1,25 +1,34 @@
-"use server"
-import { User } from '@prisma/client'
+"use server";
+
 import { createUserDB, findUserByClerkIdDB } from '@/server/database/userQueries';
 
-export async function isUserInDB(clerkId: string, clerkUser: { name: string }) {
-    const isUserSaved = await findUserByClerkIdDB(clerkId);
-    if (!isUserSaved) {
-        const userCreated = await createUserDB({
-            name: clerkUser?.name,
-            clerkId
-        });
-        console.log(`User \n${userCreated.name}\n created in db.`)
+export async function isUserSaved(clerkId: string, clerkUser: { name: string }) {
+    try {
+        // ? Using clerk id as user id also
+        const userAvailable = await findUserByClerkIdDB(clerkId);
+        if (!userAvailable) {
+            const userCreated = await createUserDB({
+                name: clerkUser?.name,
+                id : clerkId
+            });
+            console.log(`User \n${userCreated.name}\n created in db.`)
+        }
+    } catch (error) {
+        console.error(`[isUserSaved] : ${error}`);
     }
 }
 
-export async function createUser(userData: Omit<User, 'id'>) {
-
-
-}
 export async function updateUser() {
-    // actions here
+    try {
+        // actions here
+    } catch (error) {
+        console.error(`[updateUser] : ${error}`);
+    }
 }
 export async function deleteUser() {
-    // actions here
+    try {
+        // actions here
+    } catch (error) {
+        console.error(`[deleteUser] : ${error}`);
+    }
 }
