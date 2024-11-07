@@ -29,6 +29,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { SignOutButton } from '@clerk/nextjs'
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -79,9 +81,9 @@ export function NavUser() {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                {/* Check if user is not premium user then show it */}
+                {/* TODO Check if user is not premium user then show it */}
                 <Button asChild variant='default' className="size-full">
-                  <Link href=''>
+                  <Link href='/dashboard/subscribe'>
                     <Sparkles />
                     Upgrade to Pro
                   </Link>
@@ -92,7 +94,7 @@ export function NavUser() {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Button asChild variant='outline' className="size-full">
-                  <Link href=''>
+                  <Link href='/dashboard/profile'>
                     <BadgeCheck />
                     Account
                   </Link>
@@ -100,7 +102,7 @@ export function NavUser() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Button asChild variant='outline' className="size-full">
-                  <Link href=''>
+                  <Link href='/dashboard/billing'>
                     <CreditCard />
                     Billing
                   </Link>
@@ -108,7 +110,7 @@ export function NavUser() {
               </DropdownMenuItem>
               <DropdownMenuItem>
                 <Button asChild variant='outline' className="size-full">
-                  <Link href=''>
+                  <Link href='/dashboard/notifications'>
                     <Bell />
                     Notifications
                   </Link>
@@ -117,12 +119,12 @@ export function NavUser() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Button asChild variant='destructive' className="size-full">
-                <Link href=''>
+              <SignOutButton redirectUrl="/">
+                <Button variant='destructive' className="size-full">
                   <LogOut />
                   Log out
-                </Link>
-              </Button>
+                </Button>
+              </SignOutButton>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

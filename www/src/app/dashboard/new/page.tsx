@@ -3,7 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { personaFormSchema } from "@/schemas/index";
+import { useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -29,26 +30,26 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+import { personaFormSchema } from "@/schemas/index";
 import { createPersona } from "@/server/actions/personaActions";
-import { useAuth } from '@clerk/nextjs';
 import { toBase64 } from "@/lib/utils";
-import { useRouter } from 'next/navigation';
 
 export default function CreatePersonaPage() {
   const { toast } = useToast();
   const router = useRouter();
+
   const [formSubmitting, setFormSubmitting] = useState(false);
   const user = useAuth();
 
   const personaCreateForm = useForm<z.infer<typeof personaFormSchema>>({
     resolver: zodResolver(personaFormSchema),
     defaultValues: {
-      category: 'Entrepreneur',
-      description: 'this line should be very long and can not be optional',
-      instructions: 'this line should be very long and can not be optional',
-      name: 'Elon Musk',
-      exampleConversation: 'this line should be very long and can not be optional',
-    },
+      category: 'Normal Human',
+      description: '',
+      instructions: '',
+      name: '',
+      exampleConversation: '',
+    }
   })
   const avatarImageFileRef = personaCreateForm.register("image");
 
@@ -61,7 +62,7 @@ export default function CreatePersonaPage() {
         creatorId: user?.userId as string,
         image: base64Image as string || `https://avatar.vercel.sh/${values.name}?size=24`,
       });
-      
+
       if (createdPersonaDetails.id) {
         toast({
           variant: "default",
@@ -70,7 +71,15 @@ export default function CreatePersonaPage() {
 
         router.push(`/dashboard/persona/${createdPersonaDetails.id}`)
       }
-      // TODO : reset the from values
+
+      personaCreateForm.reset({
+        category: 'Normal Human',
+        description: '',
+        instructions: '',
+        name: '',
+        exampleConversation: '',
+      });
+
     } catch (error: any) {
       toast({
         variant: "destructive",
@@ -81,7 +90,6 @@ export default function CreatePersonaPage() {
       console.warn('[CreatePersonaPage : onFormSubmit] \n ', error);
     } finally {
       setFormSubmitting(false);
-      // personaCreateForm.resetField();
     }
   }
 
@@ -216,6 +224,7 @@ Elon: *passionately* Absolutely! Sustainable energy is a beacon for both our pla
 You: It’s mesmerizing to witness your vision unfold. Any upcoming projects that have you buzzing? 
 Elon: *with a mischievous smile* Always! But Neuralink... it’s not just technology. It's the next frontier of human evolution.`}
                     rows={10}
+                    className="text-balance"
                     {...field} />
                 </FormControl>
                 <FormDescription>
