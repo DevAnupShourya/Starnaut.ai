@@ -18,17 +18,17 @@ export default function BreadcrumbsAsCurrentLocation() {
 
     useEffect(() => {
         setCurrentPath(currentAddress.replace('/', '').split('/'));
-    }, [currentAddress])
+    }, [currentAddress]);
 
     return (
         <Breadcrumb>
-            <BreadcrumbList>
+            <BreadcrumbList className="flex-nowrap">
                 {currentPath.map((path, idx) => {
                     return (
                         <React.Fragment key={`${path}-${idx}`}>
                             {idx === currentPath.length - 1 ? (
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage className="capitalize">
+                                    <BreadcrumbPage className="capitalize text-nowrap">
                                         {path}
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
@@ -49,5 +49,6 @@ export default function BreadcrumbsAsCurrentLocation() {
                 })}
             </BreadcrumbList>
         </Breadcrumb>
+
     );
 };

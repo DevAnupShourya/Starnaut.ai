@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -22,7 +23,21 @@ import { filterByCategories } from "@/schemas/index";
 
 export function FilterByCategory() {
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState("All");
+    const [categoryTerm, setCategoryTerm] = useState("all");
+
+    const searchParams = useSearchParams();
+    const pathname = usePathname();
+    const { replace } = useRouter();
+
+    useEffect(() => {
+        const params = new URLSearchParams(searchParams);
+        if (categoryTerm) {
+            params.set('category', categoryTerm);
+        } else {
+            params.delete('category');
+        }
+        replace(`${pathname}?${params.toString()}`);
+    }, [categoryTerm])
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -33,8 +48,8 @@ export function FilterByCategory() {
                     aria-expanded={open}
                     className="min-w-fit justify-between"
                 >
-                    {value
-                        ? filterByCategories.find((category) => category.value === value)?.label
+                    {categoryTerm
+                        ? filterByCategories.find((category) => category.value === categoryTerm)?.label
                         : "Select category..."}
                     <ChevronsUpDown className="opacity-50" />
                 </Button>
@@ -50,7 +65,7 @@ export function FilterByCategory() {
                                     key={category.value}
                                     value={category.value}
                                     onSelect={(currentValue) => {
-                                        setValue(currentValue === value ? "" : currentValue)
+                                        setCategoryTerm(currentValue === categoryTerm ? "" : currentValue)
                                         setOpen(false)
                                     }}
                                 >
@@ -58,7 +73,7 @@ export function FilterByCategory() {
                                     <Check
                                         className={cn(
                                             "ml-auto",
-                                            value === category.value ? "opacity-100" : "opacity-0"
+                                            categoryTerm === category.value ? "opacity-100" : "opacity-0"
                                         )}
                                     />
                                 </CommandItem>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Heart, Eye, GripIcon, MessageSquare } from "lucide-react";
+import { Heart, Eye, GripIcon, MessageSquare, CalendarRange, CalendarCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -22,9 +22,9 @@ export default function PersonaProfileCard(props: Persona) {
     }
 
     return (
-        <CardContainer className="inter-var w-full">
-            <CardBody className="size-fit">
-                <CardItem as={Card} className="w-full max-w-md h-fit rounded-xl border border-[rgba(255,255,255,0.10)] dark:bg-[rgba(40,40,40,0.70)] bg-gray-100 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] " translateZ="10">
+        <CardContainer className="inter-var size-full">
+            <CardBody className="size-full">
+                <CardItem as={Card} className="size-full rounded-xl border border-[rgba(255,255,255,0.10)] dark:bg-[rgba(40,40,40,0.70)] bg-gray-100 shadow-[2px_4px_16px_0px_rgba(248,248,248,0.06)_inset] " translateZ="10">
                     <CardItem as={CardHeader} translateZ="100" className="flex flex-row items-center gap-4">
                         <Avatar className="size-8">
                             <CardItem translateZ="200">
@@ -41,33 +41,39 @@ export default function PersonaProfileCard(props: Persona) {
                             </CardDescription>
                         </div>
                     </CardItem>
-                    <CardItem translateZ="50">
+                    <CardItem translateZ="50" className="w-full">
                         <CardContent>
-                            <p className="text-xs capitalize">{props.description}</p>
+                            <p className="text-sm capitalize">{props.description}</p>
                         </CardContent>
                         <CardContent>
                             <div className="flex justify-between items-center">
                                 <div className="flex items-center">
                                     <Eye className="size-5 mr-2" />
-                                    {/* use numeral.js  */}
-                                    <span className="text-xs font-semibold">{props.users ? props.likes : 0}</span>
+                                    <span className="text-xs font-semibold">
+                                        {props.users?.toLocaleString() ?? "n/a"}
+                                    </span>
                                 </div>
                                 <div className="flex items-center">
                                     {/* TODO : should have hearted if user has */}
                                     <Heart className="size-5 mr-2" />
-                                    {/* use numeral.js  */}
-                                    <span className="text-xs font-semibold">{props.likes ? props.likes : 0}</span>
+                                    <span className="text-xs font-semibold">
+                                        {props.likes?.toLocaleString() ?? "n/a"}
+                                    </span>
                                 </div>
                             </div>
                         </CardContent>
                     </CardItem>
-                    <CardItem translateZ="80" as={CardFooter} className="w-full">
+                    <CardItem as={CardHeader} translateZ="80" className="w-full flex flex-row gap-1 pt-0">
+                        <CalendarCheck className="size-5 mr-2" />
+                        <span className="text-xs font-semibold tracking-tighter">Launched 2 days ago</span>
+                    </CardItem>
+                    <CardItem translateZ="80" as={CardFooter} className="w-full flex flex-row flex-nowrap max-lg:flex-wrap gap-2">
                         <Button variant='default' className="w-full text-white" onClick={initiateChatWithPersonaID}>
                             <MessageSquare className="size-5 mr-2" />
                             Start Chat
                         </Button>
-                        <Button variant='ghost' className="w-full text-white ml-1" asChild>
-                            <Link href={`/dashboard/persona/${props.id}`}>
+                        <Button variant='ghost' className="w-full ml-1" asChild>
+                            <Link href={`/dashboard/personas/${props.id}`}>
                                 <GripIcon className="size-5 mr-2" />
                                 More Details
                             </Link>
