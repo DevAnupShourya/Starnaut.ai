@@ -12,24 +12,25 @@ type MessagesListContainerProps = {
 
 export default function MessagesListContainer(props: MessagesListContainerProps) {
     return (
-        <ScrollArea className="h-full max-h-screen">
-            <ul className='flex flex-col gap-2'>
+        <ScrollArea className="h-full max-h-screen p-2">
+            <ul className='flex flex-col gap-6'>
                 {props.messages.map((message) => {
                     return (
-                        <div key={`${message.timestamp}`} className={cn(
-                            "p-2",
-                            message.sender === 'system' ? "flex flex-row flex-nowrap gap-1 bg-muted" : "ml-12"
-                        )}>
-                            {message.sender === 'system' && (
-                                <Avatar className="size-10">
-                                    <AvatarImage src={message.sender === 'system' ? "https://ui.shadcn.com/avatars/01.png" : "https://github.com/shadcn.png"} />
-                                    {/* <AvatarImage src={message.sender === 'system' ? "https://ui.shadcn.com/avatars/01.png" : "https://github.com/shadcn.png"}  /> */}
-                                    <AvatarFallback>CN</AvatarFallback>
-                                </Avatar>
-                            )}
-                            <div className="mx-2">
-                                <p className="text-lg">{message.data}</p>
-                                <span className="text-xs text-muted-foreground">{message.sender === 'user' && ( <span>By you on</span> )} {new Date(message.timestamp).toLocaleTimeString()}</span>
+                        <div key={`${message.timestamp}`} className={"max-w-[95%] md:max-w-[75%] lg:max-w-[55%] px-1 flex flex-row flex-nowrap items-end gap-1"}>
+                            <Avatar className="size-8">
+                                <AvatarImage src={message.sender === 'system' ? "https://ui.shadcn.com/avatars/01.png" : "https://github.com/shadcn.png"} />
+                                {/* TODO : senders name as fallback */}
+                                <AvatarFallback>CN</AvatarFallback>
+                            </Avatar>
+                            <div className={cn(
+                                "mx-2 p-2 rounded-md",
+                                message.sender === 'user' && "shadow-xl",
+                                message.sender === 'system' && "bg-muted"
+                            )}>
+                                <p className="">{message.data}</p>
+                                <p className="mt-2 text-xs text-muted-foreground text-end">
+                                    {new Date(message.timestamp).toLocaleTimeString()}
+                                </p>
                             </div>
                         </div>
                     )
